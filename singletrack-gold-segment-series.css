@@ -1,0 +1,21 @@
+/* SWStrava Clubs Plugin */
+
+.singletrack_gold_div {
+    margin: 20px 0;
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-color: #ccc;
+}
+.singletrack_gold_segment {
+    font-family: 'Roboto Slab', sans-serif;
+    font-size: 1.5em;
+    font-weight: 700;
+}
+.singletrack_gold_th {
+    font-weight: bold;
+    background-color: #9fe8db;
+}
+.singletrack_gold_td {
+    text-align: center;
+    padding: 6px;
+}
