@@ -1,4 +1,4 @@
-# Singletrack-Gold-Segment-Series GKW
+# Beta Singletrack-Gold-Segment-Series
 WordPress plugin to retrieve Strava leaderboards
 
 Graemes's test version
