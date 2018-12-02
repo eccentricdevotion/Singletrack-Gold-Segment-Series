@@ -3,7 +3,7 @@
  * Plugin Name: Singletrack Gold Segment Series
  * Plugin URI: https://github.com/eccentricdevotion/Singletrack-Gold-Segment-Series
  * Description: Display monthly segment leaderboards from Strava.
- * Version: 0.0.1
+ * Version: 0.0.2
  * Author: Eccentric Devotion
  * Author URI: https://github.com/eccentricdevotion
  * License: GPL2
@@ -22,7 +22,7 @@ function register_singletrack_gold_widget() {
 
 // Initialise settings when plugin is activated
 function singletrack_gold_activate() {
-	add_option( 'singletrack_gold_num_activities', 20 );
+	add_option( 'singletrack_gold_num_activities', 200 );
 	add_option( 'singletrack_gold_timezone', 'Pacific/Auckland' );
 }
 
@@ -50,7 +50,7 @@ class Singletrack_Gold_Segments_Widget extends WP_Widget {
 		$singletrack_gold_strava_segment_ids = array( "Greenwood Climb" => 18563649,
 			"Rapaki Climb" => 18593281,
 			"Kennedys Climb" => 18897478,
-			"Crocodile XC" => -1,
+			"Crocodile XC" => 19310391,
 			"Living Springs XC" => 18563613,
 			"McLeans Island XC" => 18607655,
 			"Port Hills XC" => 18792223,
@@ -63,21 +63,26 @@ class Singletrack_Gold_Segments_Widget extends WP_Widget {
 
 		foreach ( $singletrack_gold_strava_segment_ids as $k => $v ) {
 			if ( $v != -1 ) {
-				echo "\n<div class=\"singletrack_gold_div\">";
+				echo "\n".'<div class="singletrack_gold_div">';
 				if ( empty( $singletrack_gold_strava_authid ) ) {
 					echo "<br>No Strava authorisation code entered<br>";
 				} elseif ( empty( $singletrack_gold_strava_clubid )or $singletrack_gold_strava_clubid == -1 ) {
 					echo "<br>No Strava club found<br>";
 				} else {
-					echo "\n<table class=\"singletrack_gold_activities\">";
+					echo "\n".'<table class="singletrack_gold_activities">';
 					// Display segment name
-					echo "\n<tr><td colspan=\"4\" class=\"singletrack_gold_segment\">";
-					echo "<a href=\"https://www.strava.com/segments/" . $v . "\" target=\"_blank\">" . $k . "</a>";
+					echo "\n".'<tr><td colspan="3" class="singletrack_gold_segment">';
+					echo "\n".'<a href="https://www.strava.com/segments/' . $v . '" target="_blank">' . $k . '</a>';
 					echo "</td></tr>";
+					echo "\n".'<tr><th class="singletrack_gold_th">Who</th><th class="singletrack_gold_th">When</th><th class="singletrack_gold_th">Elapsed Time</th></tr>';
 					// Display club's latest activities
-					$singletrack_gold_output = singletrack_gold_call_strava( "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&access_token=9f90aad7789de13bd286223d5eabb7aff7023234" );
-					// echo "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&access_token=9f90aad7789de13bd286223d5eabb7aff7023234";
-					singletrack_gold_getActivities( $singletrack_gold_output );
+					$singletrack_gold_output_men = singletrack_gold_call_strava( "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&gender=M&access_token=9f90aad7789de13bd286223d5eabb7aff7023234" );
+					$singletrack_gold_output_women = singletrack_gold_call_strava( "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&gender=F&access_token=9f90aad7789de13bd286223d5eabb7aff7023234" );
+					echo "\n".'<tr><td colspan="3" class="singletrack_gold_segment">Men</td></tr>';
+					singletrack_gold_getActivities( $singletrack_gold_output_men );
+					echo "\n".'<tr><td colspan="3" class="singletrack_gold_segment">Women</td></tr>';
+					singletrack_gold_getActivities( $singletrack_gold_output_women );
+					echo "\n</table>";
 				}
 				echo "\n</div>";
 			}
@@ -103,7 +108,7 @@ function singletrack_gold_call_strava( $singletrack_gold_url ) {
 
 		$singletrack_gold_access_key = get_option( 'singletrack_gold_auth' );
 
-		$singletrack_gold_params = array( 'per_page' => get_option( 'singletrack_gold_num_activities', '20' ) );
+		$singletrack_gold_params = array( 'per_page' => get_option( 'singletrack_gold_num_activities', '100' ) );
 		$singletrack_gold_url .= '?' . http_build_query( $singletrack_gold_params );
 
 		$singletrack_gold_curl = curl_init();
@@ -149,16 +154,13 @@ function singletrack_gold_is_curl_installed() {
 function singletrack_gold_getactivities( $json ) {
 
 	$entries = $json[ "entries" ];
-	echo "\n<tr><th class='singletrack_gold_th'>Who</th><th class='singletrack_gold_th'>When</th><th class='singletrack_gold_th'>Moving Time</th><th class='singletrack_gold_th'>Elapsed Time</th></tr>";
 	foreach ( $entries as $key => $values ) {
 		echo "\n<tr>";
 		echo "<td>" . $values[ "athlete_name" ] . "</td>";
 		echo "<td>" . format_date( $values[ 'start_date_local' ] ) . "</td>";
-		echo "<td>" . seconds_to_time( $values[ 'moving_time' ] ) . "</td>";
 		echo "<td>" . seconds_to_time( $values[ 'elapsed_time' ] ) . "</td>";
 		echo "</tr>";
 	}
-	echo "\n</table>";
 }
 
 
