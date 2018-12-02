@@ -3,7 +3,7 @@
  * Plugin Name: Singletrack Gold Segment Series BETA
  * Plugin URI: https://github.com/GraemeWoodward/Singletrack-Gold-Segment-Series/tree/patch-1
  * Description: Display monthly segment leaderboards from Strava. BETA development version
- * Version: 0.0.3
+ * Version: 0.0.4
  * Author: Eccentric Devotion edited by Graeme Woodward
  * Author URI: https://github.com/eccentricdevotion
  * License: GPL2
@@ -74,6 +74,7 @@ class Singletrack_Gold_Segments_Widget extends WP_Widget {
 					echo "\n<tr><td colspan=\"4\" class=\"singletrack_gold_segment\">";
 					echo "<a href=\"https://www.strava.com/segments/" . $v . "\" target=\"_blank\">" . $k . "</a>";
 					echo "</td></tr>";
+					
 					// Display club's latest activities: Men
 					echo "\n<tr><td colspan=\"4\" class=\"singletrack_gold_segment\">";
 					echo "MEN";
@@ -91,6 +92,8 @@ class Singletrack_Gold_Segments_Widget extends WP_Widget {
 					$singletrack_gold_output = singletrack_gold_call_strava( "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&gender=F&access_token=9f90aad7789de13bd286223d5eabb7aff7023234" );
 					// echo "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&access_token=9f90aad7789de13bd286223d5eabb7aff7023234";
 					singletrack_gold_getActivities( $singletrack_gold_output );
+					
+					echo "\n</table>";
 				}
 				echo "\n</div>";
 			}
@@ -173,7 +176,7 @@ function singletrack_gold_getactivities( $json ) {
 		echo "<td>" . seconds_to_time( $values[ 'elapsed_time' ] ) . "</td>";
 		echo "</tr>";
 	}
-	echo "\n</table>";
+	
 }
 
 
