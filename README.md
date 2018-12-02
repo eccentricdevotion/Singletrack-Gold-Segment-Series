@@ -1,4 +1,4 @@
-# Beta Singletrack-Gold-Segment-Series
+# Singletrack-Gold-Segment-Series BETA version
 WordPress plugin to retrieve Strava leaderboards
 
-Graemes's test version
+BETA development version created by Graeme.
