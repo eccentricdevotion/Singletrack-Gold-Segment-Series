@@ -22,7 +22,7 @@ function register_singletrack_gold_widget() {
 
 // Initialise settings when plugin is activated
 function singletrack_gold_activate() {
-	add_option( 'singletrack_gold_num_activities', 20 );
+	add_option( 'singletrack_gold_num_activities', 100 );
 	add_option( 'singletrack_gold_timezone', 'Pacific/Auckland' );
 }
 
@@ -74,8 +74,21 @@ class Singletrack_Gold_Segments_Widget extends WP_Widget {
 					echo "\n<tr><td colspan=\"4\" class=\"singletrack_gold_segment\">";
 					echo "<a href=\"https://www.strava.com/segments/" . $v . "\" target=\"_blank\">" . $k . "</a>";
 					echo "</td></tr>";
-					// Display club's latest activities
-					$singletrack_gold_output = singletrack_gold_call_strava( "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&access_token=9f90aad7789de13bd286223d5eabb7aff7023234" );
+					// Display club's latest activities: Men
+					echo "\n<tr><td colspan=\"4\" class=\"singletrack_gold_segment\">";
+					echo "MEN";
+					echo "</td></tr>";
+					
+					$singletrack_gold_output = singletrack_gold_call_strava( "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&gender=M&access_token=9f90aad7789de13bd286223d5eabb7aff7023234" );
+					// echo "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&access_token=9f90aad7789de13bd286223d5eabb7aff7023234";
+					singletrack_gold_getActivities( $singletrack_gold_output );
+					
+					// Display club's latest activities: Women
+					echo "\n<tr><td colspan=\"4\" class=\"singletrack_gold_segment\">";
+					echo "WOMEN";
+					echo "</td></tr>";
+					
+					$singletrack_gold_output = singletrack_gold_call_strava( "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&gender=V&access_token=9f90aad7789de13bd286223d5eabb7aff7023234" );
 					// echo "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&access_token=9f90aad7789de13bd286223d5eabb7aff7023234";
 					singletrack_gold_getActivities( $singletrack_gold_output );
 				}
@@ -103,7 +116,7 @@ function singletrack_gold_call_strava( $singletrack_gold_url ) {
 
 		$singletrack_gold_access_key = get_option( 'singletrack_gold_auth' );
 
-		$singletrack_gold_params = array( 'per_page' => get_option( 'singletrack_gold_num_activities', '20' ) );
+		$singletrack_gold_params = array( 'per_page' => get_option( 'singletrack_gold_num_activities', '100' ) );
 		$singletrack_gold_url .= '?' . http_build_query( $singletrack_gold_params );
 
 		$singletrack_gold_curl = curl_init();
