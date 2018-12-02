@@ -75,6 +75,9 @@ class Singletrack_Gold_Segments_Widget extends WP_Widget {
 					echo "<a href=\"https://www.strava.com/segments/" . $v . "\" target=\"_blank\">" . $k . "</a>";
 					echo "</td></tr>";
 					
+					//echo "\n<tr><th class='singletrack_gold_th'>Who</th><th class='singletrack_gold_th'>When</th><th class='singletrack_gold_th'>Moving Time</th><th class='singletrack_gold_th'>Elapsed Time</th></tr>";
+					echo "\n<tr><th class='singletrack_gold_th'>Who</th><th class='singletrack_gold_th'>When</th><th class='singletrack_gold_th'>Elapsed Time</th></tr>";
+					
 					// Display club's latest activities: Men
 					echo "\n<tr><td colspan=\"4\" class=\"singletrack_gold_segment\">";
 					echo "MEN";
@@ -165,9 +168,7 @@ function singletrack_gold_is_curl_installed() {
 function singletrack_gold_getactivities( $json ) {
 
 	$entries = $json[ "entries" ];
-	//echo "\n<tr><th class='singletrack_gold_th'>Who</th><th class='singletrack_gold_th'>When</th><th class='singletrack_gold_th'>Moving Time</th><th class='singletrack_gold_th'>Elapsed Time</th></tr>";
-	echo "\n<tr><th class='singletrack_gold_th'>Who</th><th class='singletrack_gold_th'>When</th><th class='singletrack_gold_th'>Elapsed Time</th></tr>";
-	
+		
 	foreach ( $entries as $key => $values ) {
 		echo "\n<tr>";
 		echo "<td>" . $values[ "athlete_name" ] . "</td>";
