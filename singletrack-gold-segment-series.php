@@ -3,7 +3,7 @@
  * Plugin Name: Singletrack Gold Segment Series
  * Plugin URI: https://github.com/eccentricdevotion/Singletrack-Gold-Segment-Series
  * Description: Display monthly segment leaderboards from Strava.
- * Version: 0.0.2
+ * Version: 0.0.3
  * Author: Eccentric Devotion edited by Graeme Woodward
  * Author URI: https://github.com/eccentricdevotion
  * License: GPL2
