@@ -88,7 +88,7 @@ class Singletrack_Gold_Segments_Widget extends WP_Widget {
 					echo "WOMEN";
 					echo "</td></tr>";
 					
-					$singletrack_gold_output = singletrack_gold_call_strava( "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&gender=V&access_token=9f90aad7789de13bd286223d5eabb7aff7023234" );
+					$singletrack_gold_output = singletrack_gold_call_strava( "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&gender=F&access_token=9f90aad7789de13bd286223d5eabb7aff7023234" );
 					// echo "https://www.strava.com/api/v3/segments/" . $v . "/leaderboard?club_id=" . $singletrack_gold_strava_clubid . "&date_range=this_month&access_token=9f90aad7789de13bd286223d5eabb7aff7023234";
 					singletrack_gold_getActivities( $singletrack_gold_output );
 				}
